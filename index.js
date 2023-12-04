@@ -1,7 +1,23 @@
 const express = require('express');
-const app = experss();
+const app = express();
 const PORT = 5000;
 
+const urlRoute = require('./routes/url');
+const {connectDB} = require('./connect');
+
+app.use(express.json());
+
+app.use('/url',urlRoute);
 
 
-app.listen(PORT,()=> console.log('server is running...'));
+
+const start = async()=>{
+    try {
+        await connectDB("mongodb://127.0.0.1:27017/short-url");
+        app.listen(PORT,()=> console.log('server is running...'));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+start();

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-router.post('/');
+const { generateNewURL } = require('../controllers/url');
+router.post('/',generateNewURL);
 
 module.exports = router;
