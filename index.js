@@ -5,10 +5,11 @@ const PORT = 5000;
 const urlRoute = require('./routes/url');
 const {connectDB} = require('./connect');
 
+//middleware
 app.use(express.json());
 
+//Routes
 app.use('/url',urlRoute);
-
 
 
 const start = async()=>{

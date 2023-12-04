@@ -16,4 +16,32 @@ const generateNewURL = async (req, res) => {
     return res.json({ id: shortID });
 }
 
-module.exports = { generateNewURL };
+const redirectWebsite = async (req, res) => {
+    const shortId = req.params.shortId;
+    const entry = await URL.findOneAndUpdate({
+        shortId
+    }, {
+        $push: {
+            visitHistory: {
+                timestamp: Date.now(),
+            }
+        }
+    });
+    res.redirect(entry.redirectLink);
+}
+
+const getAnalytics = async (req, res) => {
+    const shortId = req.params.shortId;
+    const result = await URL.find({ shortId });
+    // res.send({ result[0] });
+    res.status(200).json({
+        totalClicks: result[0].visitHistory.length,
+        analytics: result[0].visitHistory,
+    })
+}
+
+module.exports = {
+    generateNewURL,
+    redirectWebsite,
+    getAnalytics
+};
