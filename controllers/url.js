@@ -6,14 +6,21 @@ const generateNewURL = async (req, res) => {
     if (!body.url) {
         return res.status(400).json({ error: 'url is required' });
     }
-    const shortID = nanoid(8);
-    await URL.create({
-        shortId: shortID,
-        redirectLink: body.url,
-        visitHistory: [],
-    });
+    const url = await URL.find({ redirectLink: body.url });
+    let shortID;
+    console.log(url);
+    if (url.length==0) {
+        shortID = nanoid(8);
+        await URL.create({
+            shortId: shortID,
+            redirectLink: body.url,
+            visitHistory: [],
+        });
+    }else{
+        shortID = url[0].shortId;
+    }
 
-    return res.render("home",{ id: shortID });
+    return res.render("home", { id: shortID });
     // return res.json({ id: shortID });
 }
 
