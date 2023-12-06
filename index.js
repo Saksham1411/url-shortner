@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const urlRoute = require('./routes/url');
 const staticRoute = require('./routes/staticRouter');
+const userRoute = require('./routes/user');
 const { connectDB } = require('./connect');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Routes
 app.use('/url', urlRoute);
+app.use('/user',userRoute);
 app.use('/', staticRoute);
 
 
